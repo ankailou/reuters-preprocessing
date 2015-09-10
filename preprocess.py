@@ -12,6 +12,8 @@ import nltk
 import threading # will potentially use multi-threading
 from nltk.stem.porter import *
 from nltk.corpus import stopwords
+from nltk.corpus import wordnet
+from nltk.stem.wordnet import WordNetLemmatizer
 from bs4 import BeautifulSoup
 
 ###############################################################################
@@ -94,12 +96,21 @@ def tokenize(text):
     # remove stopwords - assume 'reuter'/'reuters' are also irrelevant
     irrelevant = stopwords.words('english') + ['reuters', 'reuter']
     no_stop_words = [w for w in tokens if not w in stopwords.words('english')]
+    # filter out non-english words
+    eng = [y for y in no_stop_words if wordnet.synsets(y)]
+    # lemmatization process
+    lemmas = []
+    lmtzr = WordNetLemmatizer()
+    for token in eng:
+        lemmas.append(lmtzr.lemmatize(token))
     # stemming process
     stems = []
     stemmer = PorterStemmer()
-    for token in no_stop_words:
+    for token in lemmas:
         stems.append(stemmer.stem(token).encode('ascii','ignore'))
-    return stems
+    # remove short stems
+    terms = [x for x in stems if len(x) >= 4]
+    return terms
 
 def generate_document(text):
     """ function: generate_document
@@ -135,7 +146,7 @@ def generate_tree(text):
 ###############################################################################
 
 def parse_documents():
-    """ function: parse_documented
+    """ function: parse_document
         ------------------------
         extract list of Document objects from token list
 
@@ -182,8 +193,8 @@ def main(argv):
             lexicon['body'].add(term)
 
     # UNCOMMENT WHEN DEBUGGING
-    # print(lexicon['title'])
-    # print(lexicon['body'])
+    # print(len(lexicon['title']))
+    # print(len(lexicon['body']))
 
     # generate dataset 1 w tfidf (using feature1 module)
     feature1.generate_dataset(documents, lexicon)

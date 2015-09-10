@@ -45,9 +45,10 @@ def generate_dataset(documents, lexicon):
         weights[i] = dict()
 
     # generate dictionary of { "word", "score" } pairs for each document
-    print('Generating weight scores for words...')
+    print('Generating weight scores for words... This WILL take time...')
     for word in lexicon['title'] | lexicon['body']:
-        print('Generating weights for word:', word)
+        # UNCOMMENT FOR SANITY
+        # print('Generating weights for word:', word)
         m.get_similarities(word, weights)
 
     # generate feature list
@@ -59,17 +60,20 @@ def generate_dataset(documents, lexicon):
             if term[1] > 0.0:
                 features.add(term[0])
 
-    # UNCOMMENT WHEN DEBUGGING
-    print(features)
-    print(len(features))
+    # sort set into list
+    sorted_features = sorted(features)
 
     # TODO: select largest 1000 values
     # TODO: select words (<= 1000) for values => make list
 
     # TODO: generate feature vector for each document
 
-    # TODO: write rows vectors to dataset1.csv
+    # write vectors to dataset1.csv
     dataset = open("dataset1.csv", "w")
+
+    dataset.write('id\t')
+    for feature in sorted_features:
+        dataset.write(feature,'\t')
 
     dataset.close()
 

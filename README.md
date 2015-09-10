@@ -56,7 +56,7 @@ $ import nltk
 $ nltk.download()
 ```
 
-From the download window, ensure `models/punkt` and `corpora/stopwords` are downloaded onto your machine.
+From the download window, ensure `models/punkt`, `corpora/wordnet` and `corpora/stopwords` are downloaded onto your machine.
 
 Next, ensure BeautifulSoup4 is installed:
 
