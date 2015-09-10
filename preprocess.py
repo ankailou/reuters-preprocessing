@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """ preprocess.py
-    -------
+    -------------
     @author = Ankai Lou
 """
 
@@ -9,6 +9,7 @@ import os
 import sys
 import string
 import nltk
+import threading # will potentially use multi-threading
 from nltk.stem.porter import *
 from nltk.corpus import stopwords
 from bs4 import BeautifulSoup
@@ -174,24 +175,25 @@ def main(argv):
 
     # generate lexicon of unique words for feature reduction
     print('Document generation complete. Building lexicons..')
-    title_lexicon = set()
-    body_lexicon = set()
+    lexicon = { 'title' : set(), 'body' : set() }
     for document in documents:
         for term in document['words']['title']:
-            title_lexicon.add(term)
+            lexicon['title'].add(term)
         for term in document['words']['body']:
-            body_lexicon.add(term)
+            lexicon['body'].add(term)
 
     # UNCOMMENT WHEN DEBUGGING
-    # print(title_lexicon)
-    # print(body_lexicon)
+    print(lexicon['title'])
+    print(lexicon['body'])
 
     # generate dataset 1 w tfidf (using feature1 module)
+    feature1.generate_dataset(documents, lexicon)
 
     # generate dataset 2 w tfidf (using feature2 module)
+    feature2.generate_dataset(documents, lexicon)
 
     # generate dataset 3 w tfidf (using feature3 module)
-
+    feature3.generate_dataset(documents, lexicon)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

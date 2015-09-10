@@ -18,9 +18,9 @@ This python module contains the following files and directories:
 * feature1.py - sub-module that generates feature vector dataset #1
 * feature2.py - sub-module that generates feature vector dataset #2
 * feature3.py - sub-module that generates feature vector dataset #3
-* tfidf.py - module containing functionality for performing term frequency-inverse document frequency
+* tfidf.py - module for term frequency-inverse document frequency
 * data/
-    * reut2-xxx.sgm - files containing formatted articles (replace xxx with numbers in {000,...,021})
+    * reut2-xxx.sgm - formatted articles (replace xxx from {000,...,021})
 
 Running `preprocess.py` will generate the following files
 
@@ -33,10 +33,10 @@ The feature vectors in the datasets were generated using the following methodolo
 * TF-IDF of title & body words to select the top 1000 words as features
 * Filtering nouns & verbs from the term lists, and repeating the previous process
 
-For a more detailed report of the methodology used to sanitize and construct these refined datasets and feature vectors, read the file in this project titled `report1.md` using the following command
+For a more detailed report of the methodology used to sanitize and construct these refined datasets and feature vectors, read the file in this project titled `Report1.md` using the following command
 
 ```
-> less report1.md
+> less Report1.md
 ```
 
 ## Usage
