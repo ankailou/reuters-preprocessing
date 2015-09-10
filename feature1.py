@@ -23,10 +23,6 @@ def generate_dataset(documents, lexicon):
     """
     print('Generating dataset @ dataset1.csv...')
 
-    # UNCOMMENT WHEN DEBUGGING
-    # print(documents)
-    # print(lexicon)
-
     # document = { 'topics' : [], 'places' : [],
     #              'words' : { 'title' : [], 'body' : []} }
 
@@ -35,10 +31,8 @@ def generate_dataset(documents, lexicon):
     # each sub-dictionary := { "word" : score } pairs
     weights = dict()
 
-    # perform tfidf
+    # tfidf
     m = tfidf()
-
-    # add documents to tfidf objects
     print('Adding documents for TF-IDF...')
     for i, document in enumerate(documents):
         m.addDocument(i, document['words']['title']+document['words']['body'])
@@ -69,12 +63,25 @@ def generate_dataset(documents, lexicon):
     # TODO: generate feature vector for each document
 
     # write vectors to dataset1.csv
+    print('Writing feature vector data @ dataset1.csv!')
     dataset = open("dataset1.csv", "w")
 
+    # top row labels
     dataset.write('id\t')
     for feature in sorted_features:
-        dataset.write(feature,'\t')
+        dataset.write(feature)
+        dataset.write('\t')
+    dataset.write('\n')
 
+    # feature vector for each document
+    for i, document in enumerate(documents):
+        # document id number
+        dataset.write(str(i))
+        dataset.write('\t')
+        # each tf-idf score
+        for feature in sorted_features:
+            dataset.write(str(weights[i][feature]))
+            dataset.write('\t')
+        dataset.write('\n')
     dataset.close()
-
     print('Finished generating dataset @ dataset1.csv!')
