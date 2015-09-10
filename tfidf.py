@@ -1,50 +1,68 @@
 #!/usr/bin/python
 
+""" tfidf.py
+    --------
+    @author = Ankai Lou
+"""
+
 import sys
 import os
+import math
 
 class tfidf:
-  def __init__(self):
-    self.weighted = False
-    self.documents = []
-    self.corpus_dict = {}
+    def __init__(self):
+        """ function: constructor
+            ---------------------
+            :param documents: store word occurrences per document
+            :param occurrences: store word occurrences for all documents
+        """
+        self.documents = dict([])
+        self.occurrences = dict({})
 
-  def addDocument(self, doc_name, list_of_words):
-    # building a dictionary
-    doc_dict = {}
-    for w in list_of_words:
-      doc_dict[w] = doc_dict.get(w, 0.) + 1.0
-      self.corpus_dict[w] = self.corpus_dict.get(w, 0.0) + 1.0
+    def addDocument(self, name, words):
+        """ function: addDocument
+            ---------------------
+            add document @doc_name to dictionary
+            construct corpus from @list_of_words
 
-    # normalizing the dictionary
-    length = float(len(list_of_words))
-    for k in doc_dict:
-      doc_dict[k] = doc_dict[k] / length
+            :param name: name to identify document
+            :param words: list of terms in document
+        """
+        # calculations
+        doc_dict = dict({})
+        occurrence = False
+        for w in words:
+            # occurrences per documents
+            doc_dict[w] = doc_dict.get(w, 0.0) + 1.0
+            if not occurrence:
+                # documents with the word
+                self.occurrences[w] = self.occurrences.get(w, 0.0) + 1.0
+                occurrence = True
 
-    # add the normalized document to the corpus
-    self.documents.append([doc_name, doc_dict])
+        # normalizing tf by document length
+        length = float(len(words))
+        for key in doc_dict:
+            doc_dict[key] = doc_dict[key] / length
 
-  def similarities(self, list_of_words):
-    """Returns a list of all the [docname, similarity_score] pairs relative to a list of words."""
+        # add the normalized document to the corpus
+        self.documents[name] = doc_dict
 
-    # building the query dictionary
-    query_dict = {}
-    for w in list_of_words:
-      query_dict[w] = query_dict.get(w, 0.0) + 1.0
+    def get_similarities(self, word, weights):
+        """ function: similarities
+            ----------------------
+            list of all the [docname, similarity_score]
+            pairs relative to a list of terms
+        """
 
-    # normalizing the query
-    length = float(len(list_of_words))
-    for k in query_dict:
-      query_dict[k] = query_dict[k] / length
-
-    # computing the list of similarities
-    sims = []
-    for doc in self.documents:
-      score = 0.0
-      doc_dict = doc[1]
-      for k in query_dict:
-        if doc_dict.has_key(k):
-          score += (query_dict[k] / self.corpus_dict[k]) + (doc_dict[k] / self.corpus_dict[k])
-      sims.append([doc[0], score])
-
-    return sims
+        # computing the list of similarities
+        sims = []
+        num_docs = len(self.documents)
+        for doc, doc_dict in self.documents.iteritems():
+            score = 0.0
+            if self.occurrences.has_key(word) and doc_dict.has_key(word):
+                tf = 0.5 + (0.5 * doc_dict[word])
+                idf = math.log( num_docs / self.occurrences[word] )
+                score = tf * idf
+                # UNCOMMENT WHEN DEBUGGING
+                # print(score)
+            weights[doc][word] = score

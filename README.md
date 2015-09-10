@@ -40,6 +40,30 @@ For a more detailed report of the methodology used to sanitize and construct the
 ```
 
 ## Usage
+This module relies on several libraries to perform preprocessing, before anything:
+
+Ensure NLTK is installed and the corpus and tokenizers are installed:
+
+```
+> pip install NLTK
+```
+
+Next, enter a Python shell and download the necessary NLTK data:
+
+```
+> python
+$ import nltk
+$ nltk.download()
+```
+
+From the download window, ensure `models/punkt` and `corpora/stopwords` are downloaded onto your machine.
+
+Next, ensure BeautifulSoup4 is installed:
+
+```
+> pip install beautifulsoup4
+```
+
 To run the code, first ensure the `preprocess.py` file has execute privileges:
 
 ```

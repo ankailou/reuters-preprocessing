@@ -79,21 +79,20 @@ def tokenize(text):
     """ function: tokenize
         ------------------
         generate list of tokens given a block of @text;
-        performs the following preprocessing sanitation:
-            * encode unicode string to string
-            * removes punctuations
-            * removes digits
-            * tokenizes with nltk
-            * removes stop words
-            * stems remaining words
 
         :param text: string representing text field (title or body)
         :returns: list of strings of tokenized & sanitized words
     """
+    # encode unicode to string
     ascii = text.encode('ascii', 'ignore')
+    # remove digits
     no_digits = ascii.translate(None, string.digits)
+    # remove punctuation
     no_punctuation = no_digits.translate(None, string.punctuation)
+    # tokenize
     tokens = nltk.word_tokenize(no_punctuation)
+    # remove stopwords - assume 'reuter'/'reuters' are also irrelevant
+    irrelevant = stopwords.words('english') + ['reuters', 'reuter']
     no_stop_words = [w for w in tokens if not w in stopwords.words('english')]
     # stemming process
     stems = []
@@ -174,7 +173,7 @@ def main(argv):
     documents = parse_documents()
 
     # generate lexicon of unique words for feature reduction
-    print('Document generation complete. Building lexicons..')
+    print('Document generation complete. Building lexicon...')
     lexicon = { 'title' : set(), 'body' : set() }
     for document in documents:
         for term in document['words']['title']:
@@ -183,8 +182,8 @@ def main(argv):
             lexicon['body'].add(term)
 
     # UNCOMMENT WHEN DEBUGGING
-    print(lexicon['title'])
-    print(lexicon['body'])
+    # print(lexicon['title'])
+    # print(lexicon['body'])
 
     # generate dataset 1 w tfidf (using feature1 module)
     feature1.generate_dataset(documents, lexicon)
