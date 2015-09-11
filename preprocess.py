@@ -168,6 +168,26 @@ def parse_documents():
     return documents
 
 ###############################################################################
+##################### function(s) for generating lexicon ######################
+###############################################################################
+
+def generate_lexicon(documents):
+    """ function: generate_lexicon
+        --------------------------
+        generate title/body lexicon for feature selection
+
+        :param documents: objects to generate lexicon information
+        :returns: dictionary of sets for title & body lexicons
+    """
+    lexicon = { 'title' : set(), 'body' : set() }
+    for document in documents:
+        for term in document['words']['title']:
+            lexicon['title'].add(term)
+        for term in document['words']['body']:
+            lexicon['body'].add(term)
+    return lexicon
+
+###############################################################################
 ################## main function - single point of execution ##################
 ###############################################################################
 
@@ -185,12 +205,7 @@ def main(argv):
 
     # generate lexicon of unique words for feature reduction
     print('Document generation complete. Building lexicon...')
-    lexicon = { 'title' : set(), 'body' : set() }
-    for document in documents:
-        for term in document['words']['title']:
-            lexicon['title'].add(term)
-        for term in document['words']['body']:
-            lexicon['body'].add(term)
+    lexicon = generate_lexicon(documents)
 
     # UNCOMMENT WHEN DEBUGGING
     # print(len(lexicon['title']))

@@ -9,6 +9,10 @@ import sys
 import os
 import math
 
+###############################################################################
+##### class for term frequency - inverse document frequency functionality #####
+###############################################################################
+
 class tfidf:
     def __init__(self):
         """ function: constructor
@@ -38,12 +42,10 @@ class tfidf:
                 # documents with the word
                 self.occurrences[w] = self.occurrences.get(w, 0.0) + 1.0
                 occurrence = True
-
         # normalizing tf by document length
         length = float(len(words))
         for key in doc_dict:
             doc_dict[key] = doc_dict[key] / length
-
         # add the normalized document to the corpus
         self.documents[name] = doc_dict
 
@@ -55,15 +57,13 @@ class tfidf:
             :param word: term to calculate tf-idf score
             :param weights: dictionary to write scores
         """
-
-        # computing the list of similarities
-        sims = []
+        # compute list of similarities
         num_docs = len(self.documents)
         for doc, doc_dict in self.documents.iteritems():
             score = 0.0
             if self.occurrences.has_key(word) and doc_dict.has_key(word):
                 tf = 0.5 + (0.5 * doc_dict[word])
-                idf = math.log( num_docs / self.occurrences[word] )
+                idf = math.log( num_docs / self.occurrences[word], num_docs)
                 score = scaling * tf * idf
                 # UNCOMMENT WHEN DEBUGGING
                 # print(score)

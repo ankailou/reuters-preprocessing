@@ -21,7 +21,7 @@ def generate_dataset(documents, lexicon):
         :param documents: list of well-formatted, processable documents
         :param lexicon:   list of word stems for selecting features
     """
-    print('Generating dataset @ dataset1.csv...')
+    print('Generating dataset @ dataset2.csv...')
 
     # document = { 'topics' : [], 'places' : [],
     #              'words' : { 'title' : [], 'body' : []} }
