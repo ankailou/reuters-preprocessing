@@ -9,7 +9,7 @@ import os
 import sys
 import string
 import nltk
-from tfidf import tfidf
+from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import Counter
 
 ###############################################################################
@@ -78,7 +78,7 @@ def select_features(weights):
 ############## function(s) for generating weighted tf-idf scores ##############
 ###############################################################################
 
-def generate_weights(documents, lexicon):
+def generate_weights(documents):
     """ function: generate_weights
         --------------------------
         perform tf-idf to generate importance scores for words in documents
@@ -86,20 +86,15 @@ def generate_weights(documents, lexicon):
         :param document: list of documents to use in calculations
         :returns: dictionary of dictionaries: {"id_" : {"word" : score,...}}
     """
-    # weight = { 'document' : { 'word' : score,... },... }
-    weights = dict()
-    m = tfidf()
-    print('Adding documents for TF-IDF...')
+    # generate dict for sklearn
+    token_dict = dict([])
     for i, document in enumerate(documents):
-        m.addDocument(i, document['words']['title']+document['words']['body'])
-        weights[i] = dict()
-    # generate dictionary of { "word", "score" } pairs for each document
-    print('Generating weight scores for words; This WILL take time...')
-    for word in lexicon['title'] | lexicon['body']:
-        # UNCOMMENT FOR SANITY
-        # print('Generating weights for word:', word)
-        m.get_similarities(word, weights)
-    return weights
+        token_dict[i] = ' '.join(document['words']['title'] + document['words']['body'])
+    # scikit-learn tfidf
+    tfidf = TfidfVectorizer()
+    weights = tfidf.fit_transform(token_dict.values())
+    features = tfidf.get_feature_names()
+    return features, weights
 
 ###############################################################################
 ################ main function for generating refined dataset #################
@@ -114,14 +109,22 @@ def generate_dataset(documents, lexicon):
         :param documents: list of well-formatted, processable documents
         :param lexicon:   list of word stems for selecting features
     """
-    print 'Generating dataset @', datafile
-    weights = generate_weights(documents, lexicon)
+    print '\nGenerating dataset @', datafile
+    words, weights = generate_weights(documents)
+
+    # generate dictionary for feature selection
+    weight_array = weights.toarray()
+    weight_dict = dict([])
+    for i, row in enumerate(weight_array):
+        weight_dict[i] = dict([])
+        for j, word in enumerate(words):
+            weight_dict[i][word] = weight_array[i][j]
 
     # generate feature list
     print 'Selecting features for the feature vectors @', datafile
-    features = select_features(weights)
+    features = select_features(weight_dict)
 
     # write vectors to dataset1.csv
     print 'Writing feature vector data @', datafile
-    generate_csv(documents, features, weights)
+    generate_csv(documents, features, weight_dict)
     print 'Finished generating dataset @', datafile

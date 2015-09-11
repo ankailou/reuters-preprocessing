@@ -71,7 +71,6 @@ def populate_word_list(document, article):
     text = article.find('text')
     title = text.title
     body = text.body
-
     if title != None:
         document['words']['title'] = tokenize(title.text)
     if body != None:
@@ -217,7 +216,7 @@ def main(argv):
     feature2.generate_dataset(documents, lexicon)
 
     # generate dataset 3 w tfidf (using feature3 module)
-    # feature3.generate_dataset(documents, lexicon)
+    feature3.generate_dataset(documents, lexicon)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

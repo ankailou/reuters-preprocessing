@@ -44,7 +44,7 @@ Potential additional to future iterations of feature vector generation:
 * different normalization
 * bigram/trigram/n-gram aggregation
 * stratified sampling: starting letter, stem, etc.
-* binning: equal-width & equal-depth (grouping by topics/places)
+* binning: equal-width & equal-depth (grouping by topics/places, part-of-speech, etc)
 * entropy-based discretization (partitioning based on entropy calculations)
 
 ## Usage
@@ -106,9 +106,16 @@ where `X` is replaced with 1, 2, or 3 depending on the dataset.
 
 ### Contributors
 * Ankai Lou (lou.56@osu.edu)
-* Daniel Jaung
+* Daniel Jaung (jaung.2@osu.edu)
 
 ## Change Log
+2015-09-11 - version 1.0.3
+
+* Finalize the construction of output of dataset3.csv
+* Update Report1.md to reflect approach/rationale of dataset3.csv
+* Finalize documentation
+* Include usage of scikit-learn
+
 2015-09-11 - Version 1.0.2
 
 * Update tf-idf module to use log normalization & probabilistic inverse frequency
