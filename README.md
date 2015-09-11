@@ -75,7 +75,7 @@ Next, ensure BeautifulSoup4 is installed:
 To run the code, first ensure the `preprocess.py` file has execute privileges:
 
 ```
-> chmod o+x preprocess.py
+> chmod +x preprocess.py
 ```
 
 Next, ensure the `tfidf.py`, `feature1.py`, `feature2.py`, and `feature3.py` files are in the same directory as `preprocess.py`. Also,

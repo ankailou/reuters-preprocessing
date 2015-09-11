@@ -10,7 +10,7 @@ import sys
 import string
 import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
-from collections import Counter
+import operator
 
 ###############################################################################
 ########## global variables for single-point of control over change ###########
@@ -36,7 +36,7 @@ def generate_csv(documents, features, weights):
         dataset.write(feature)
         dataset.write('\t')
     dataset.write('class-label:topics\t')
-    dataset.write('class-lable:places\t')
+    dataset.write('class-label:places\t')
     dataset.write('\n')
     # feature vector for each document
     for i, document in enumerate(documents):
@@ -67,10 +67,10 @@ def select_features(weights):
     """
     features = set()
     for doc, doc_dict in weights.iteritems():
-        scorer = Counter(doc_dict)
-        for term in scorer.most_common(5):
-            if term[1] > 0.0:
-                features.add(term[0])
+        top = dict(sorted(doc_dict.iteritems(), key=operator.itemgetter(1), reverse=True)[:5])
+        for term, score in top.iteritems():
+            if score > 0.0:
+                features.add(term)
     # sort set into list
     return sorted(features)
 
