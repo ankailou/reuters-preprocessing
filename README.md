@@ -39,6 +39,14 @@ For a more detailed report of the methodology used to sanitize and construct the
 > less Report1.md
 ```
 
+Potential additional to future iterations of feature vector generation:
+
+* different normalization
+* bigram/trigram/n-gram aggregation
+* stratified sampling: starting letter, stem, etc.
+* binning: equal-width & equal-depth (grouping by topics/places)
+* entropy-based discretization (partitioning based on entropy calculations)
+
 ## Usage
 This module relies on several libraries to perform preprocessing, before anything:
 
@@ -71,7 +79,7 @@ To run the code, first ensure the `preprocess.py` file has execute privileges:
 ```
 
 Next, ensure the `tfidf.py`, `feature1.py`, `feature2.py`, and `feature3.py` files are in the same directory as `preprocess.py`. Also,
-ensure that the `data/` directory containing the `reut2-xxx.sgm` files is present. To begin preprocessing the data, run:
+ensure there is a `data/` directory in the same folder as `preprocess.py` and the `data/` directory containing the `reut2-xxx.sgm` files is present. To begin preprocessing the data, run:
 
 ```
 > python preprocess.py
@@ -98,14 +106,23 @@ where `X` is replaced with 1, 2, or 3 depending on the dataset.
 
 ### Contributors
 * Ankai Lou (lou.56@osu.edu)
+* Daniel Jaung
 
 ## Change Log
+2015-09-11 - Version 1.0.2
+
+* Update tf-idf module to use log normalization & probabilistic inverse frequency
+* Finalize the construction of output of dataset2.csv
+* Update Report1.md to reflect approach/rationale of dataset2.csv
+* Begin construction for dataset3.csv
+* TODO: finish Report1.md and dataset3.csv
+
 2015-09-11 - Version 1.0.1
 
 * Fixed td-idf module to provide normalized scores in the range [0,1]
 * Updated tokenization in preprocess.py to filter non-english words and shorter stems
 * Updated the feature selection process for feature vector 1 to run in minimal time
-* Finalize the construction and outputting of dataset1.csv
+* Finalize the construction and output of dataset1.csv
 * Began construction for dataset2.csv
 * TODO: finish Report1.md and dataset2.csv; start dataset3.csv
 

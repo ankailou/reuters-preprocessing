@@ -34,11 +34,11 @@ def init_document():
         initialize new empty document skeleton
 
         :returns: dictionary @document of document fields
-            @dictionary['topics'] is a list representing topic class labels
-            @dictionary['places'] is a list representing place class labels
-            @dictionary['words'] is a dictionary
-            @dictionary['words']['title'] is a list for the title text terms
-            @dictionary['words']['body'] is a list for the body text terms
+        @dictionary['topics'] is a list representing topic class labels
+        @dictionary['places'] is a list representing place class labels
+        @dictionary['words'] is a dictionary
+        @dictionary['words']['title'] is a list for the title text terms
+        @dictionary['words']['body'] is a list for the body text terms
     """
     document = { 'topics' : [], 'places' : [], 'words' : dict([]) }
     document['words']['title'] = []
@@ -52,7 +52,7 @@ def populate_class_label(document, article):
 
         :param document: formatted dictionary object representing a document
         :param article:  formatted parse tree built from unformatted data
-            @article is a 'reuter' child of the original file parsetree
+        @article is a 'reuter' child of the original file parsetree
     """
     for topic in article.topics.children:
         document['topics'].append(topic.text.encode('ascii', 'ignore'))
@@ -217,7 +217,7 @@ def main(argv):
     feature2.generate_dataset(documents, lexicon)
 
     # generate dataset 3 w tfidf (using feature3 module)
-    feature3.generate_dataset(documents, lexicon)
+    # feature3.generate_dataset(documents, lexicon)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

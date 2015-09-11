@@ -23,6 +23,10 @@ class tfidf:
         self.documents = dict([])
         self.occurrences = dict({})
 
+    ###########################################################################
+    ########## function(s) for collecting information on document set #########
+    ###########################################################################
+
     def addDocument(self, name, words):
         """ function: addDocument
             ---------------------
@@ -32,8 +36,7 @@ class tfidf:
             :param name: name to identify document
             :param words: list of terms in document
         """
-        # calculations
-        doc_dict = dict({})
+        doc_dict = dict([])
         occurrence = False
         for w in words:
             # occurrences per documents
@@ -49,7 +52,11 @@ class tfidf:
         # add the normalized document to the corpus
         self.documents[name] = doc_dict
 
-    def get_similarities(self, word, weights, scaling=1.0):
+    ###########################################################################
+    ############### general function for computing tf-idf score ###############
+    ###########################################################################
+
+    def get_similarities(self, word, weights, type='normal', scaling=1.0):
         """ function: get_similarities
             --------------------------
             generator function for feature vectors
@@ -62,9 +69,43 @@ class tfidf:
         for doc, doc_dict in self.documents.iteritems():
             score = 0.0
             if self.occurrences.has_key(word) and doc_dict.has_key(word):
-                tf = 0.5 + (0.5 * doc_dict[word])
-                idf = math.log( num_docs / self.occurrences[word], num_docs)
-                score = scaling * tf * idf
-                # UNCOMMENT WHEN DEBUGGING
-                # print(score)
+                if type == 'normal':
+                    score += self.normal(word, doc_dict[word], num_docs)
+                elif type == 'smooth':
+                    score += self.smooth(word, doc_dict[word], num_docs)
+                else:
+                    print type, 'is not a valid td-idf function'
+                    sys.exit(1)
+                score *= scaling
             weights[doc][word] = score
+
+    ###########################################################################
+    ############ function(s) for computing tf-idf in different ways ###########
+    ###########################################################################
+
+    def normal(self, word, freq, num_docs):
+        """ function: normal
+            ----------------
+            tfidf using raw frequency & inverse frequency
+
+            :param word: term in tf-idf calculation
+            :param freq: number of times word appears in document
+            :param num_docs: total number of documents in the set
+        """
+        tf = 0.5 + (0.5 * freq)
+        idf = math.log(num_docs / self.occurrences[word], num_docs)
+        return tf * idf
+
+    def smooth(self, word, freq, num_docs):
+        """ function: smooth
+            ----------------
+            tfidf using smooth raw frequency & inverse frequency
+
+            :param word: term in tf-idf calculation
+            :param freq: number of times word appears in document
+            :param num_docs: total number of documents in the set
+        """
+        tf = math.log(1 + freq)
+        idfN = (num_docs - self.occurrences[word]) / self.occurrences[word]
+        idf = math.log(1 + idfN)
+        return tf * idf

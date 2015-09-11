@@ -13,6 +13,12 @@ from tfidf import tfidf
 from collections import Counter
 
 ###############################################################################
+########## global variables for single-point of control over change ###########
+###############################################################################
+
+datafile = 'dataset1.csv'
+
+###############################################################################
 ############### function for printing dataset to .csv document ################
 ###############################################################################
 
@@ -24,7 +30,7 @@ def generate_csv(documents, features, weights):
         :param documents: dictionary of document objects
         :param features: sorted list of features to represent
     """
-    dataset = open("dataset1.csv", "w")
+    dataset = open(datafile, "w")
     dataset.write('id\t')
     for feature in features:
         dataset.write(feature)
@@ -80,7 +86,7 @@ def generate_weights(documents, lexicon):
         :param document: list of documents to use in calculations
         :returns: dictionary of dictionaries: {"id_" : {"word" : score,...}}
     """
-    # each dictionary :=
+    # weight = { 'document' : { 'word' : score,... },... }
     weights = dict()
     m = tfidf()
     print('Adding documents for TF-IDF...')
@@ -108,14 +114,14 @@ def generate_dataset(documents, lexicon):
         :param documents: list of well-formatted, processable documents
         :param lexicon:   list of word stems for selecting features
     """
-    print('Generating dataset @ dataset1.csv...')
+    print '\nGenerating dataset @', datafile
     weights = generate_weights(documents, lexicon)
 
     # generate feature list
-    print('Selecting features for the feature vectors of dataset1.csv...')
+    print 'Selecting features for the feature vectors @', datafile
     features = select_features(weights)
 
     # write vectors to dataset1.csv
-    print('Writing feature vector data @ dataset1.csv!')
+    print 'Writing feature vector data @', datafile
     generate_csv(documents, features, weights)
-    print('Finished generating dataset @ dataset1.csv!')
+    print 'Finished generating dataset @', datafile
