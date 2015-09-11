@@ -47,11 +47,13 @@ class tfidf:
         # add the normalized document to the corpus
         self.documents[name] = doc_dict
 
-    def get_similarities(self, word, weights):
-        """ function: similarities
-            ----------------------
-            list of all the [docname, similarity_score]
-            pairs relative to a list of terms
+    def get_similarities(self, word, weights, scaling=1.0):
+        """ function: get_similarities
+            --------------------------
+            generator function for feature vectors
+
+            :param word: term to calculate tf-idf score
+            :param weights: dictionary to write scores
         """
 
         # computing the list of similarities
@@ -62,7 +64,7 @@ class tfidf:
             if self.occurrences.has_key(word) and doc_dict.has_key(word):
                 tf = 0.5 + (0.5 * doc_dict[word])
                 idf = math.log( num_docs / self.occurrences[word] )
-                score = tf * idf
+                score = scaling * tf * idf
                 # UNCOMMENT WHEN DEBUGGING
                 # print(score)
             weights[doc][word] = score

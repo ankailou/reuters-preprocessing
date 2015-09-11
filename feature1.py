@@ -43,7 +43,7 @@ def generate_dataset(documents, lexicon):
     for word in lexicon['title'] | lexicon['body']:
         # UNCOMMENT FOR SANITY
         # print('Generating weights for word:', word)
-        m.get_similarities(word, weights)
+        m.get_similarities1(word, weights)
 
     # generate feature list
     print('Selecting features for the feature vector...')
