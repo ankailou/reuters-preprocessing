@@ -104,8 +104,9 @@ The weighting title words higher than body words is based on the assumption that
 
 The application of a weight on title words over body wordsdid not significantly change the feature vector for dataset2.csv from dataset1.csv. Therefore, the tf-idf calculation formula was also altered. The log normalization and probabilistic inverse frequency are used in order to decrease the raw tf-score for larger frequency values to counterbalance the additional weighting of title words. The tf-idf scores were not normalized to the interval [0,1] because the 1.1x and 1.25x weightings cannot be normalized to [0,1].
 
-## GeneratingFeature Vector 3
+## Generating Feature Vector 3
 
+### NOTE: stdlinux currently does not support scikit-learn; therefore, this dataset will currently not be generated on stdlinux.
 ### Approach
 
 Using the `scikit-learn` python module, the `TfidfVectorizer` submodule in the python submodule `feature_extraction.text` provides functionality for performing td-idf on a set of documents. This replaced the manually-coded td-idf formula in `tfidf.py` used for feature vectors 1 & 2. The same feature selection of methodology as feature vector 2 is employed. To view the dataset:

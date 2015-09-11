@@ -64,7 +64,42 @@ $ import nltk
 $ nltk.download()
 ```
 
-From the download window, ensure `models/punkt`, `corpora/wordnet` and `corpora/stopwords` are downloaded onto your machine.
+From the download window, ensure `punkt`, `wordnet` and `stopwords` are downloaded onto your machine.
+
+```
+---------------------------------------------------------------------------
+    d) Download   l) List    u) Update   c) Config   h) Help   q) Quit
+---------------------------------------------------------------------------
+Download which package (l=list; x=cancel)?
+  Identifier> punkt
+    Downloading package punkt to /home/3/loua/nltk_data...
+      Unzipping tokenizers/punkt.zip.
+
+---------------------------------------------------------------------------
+    d) Download   l) List    u) Update   c) Config   h) Help   q) Quit
+---------------------------------------------------------------------------
+Downloader> d
+
+Download which package (l=list; x=cancel)?
+  Identifier> stopwords
+    Downloading package stopwords to /home/3/loua/nltk_data...
+      Unzipping corpora/stopwords.zip.
+
+---------------------------------------------------------------------------
+    d) Download   l) List    u) Update   c) Config   h) Help   q) Quit
+---------------------------------------------------------------------------
+Downloader> d
+
+Download which package (l=list; x=cancel)?
+  Identifier> wordnet
+    Downloading package wordnet to /home/3/loua/nltk_data...
+      Unzipping corpora/wordnet.zip.
+
+---------------------------------------------------------------------------
+    d) Download   l) List    u) Update   c) Config   h) Help   q) Quit
+---------------------------------------------------------------------------
+Downloader> q
+```
 
 Next, ensure BeautifulSoup4 is installed:
 
