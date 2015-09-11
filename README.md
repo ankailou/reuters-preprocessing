@@ -100,6 +100,15 @@ where `X` is replaced with 1, 2, or 3 depending on the dataset.
 * Ankai Lou (lou.56@osu.edu)
 
 ## Change Log
+2015-09-11 - Version 1.0.1
+
+* Fixed td-idf module to provide normalized scores in the range [0,1]
+* Updated tokenization in preprocess.py to filter non-english words and shorter stems
+* Updated the feature selection process for feature vector 1 to run in minimal time
+* Finalize the construction and outputting of dataset1.csv
+* Began construction for dataset2.csv
+* TODO: finish Report1.md and dataset2.csv; start dataset3.csv
+
 2015-09-10 - Version 1.0.0:
 
 * Initial code import

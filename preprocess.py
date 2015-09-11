@@ -94,7 +94,6 @@ def tokenize(text):
     # tokenize
     tokens = nltk.word_tokenize(no_punctuation)
     # remove stopwords - assume 'reuter'/'reuters' are also irrelevant
-    irrelevant = stopwords.words('english') + ['reuters', 'reuter']
     no_stop_words = [w for w in tokens if not w in stopwords.words('english')]
     # filter out non-english words
     eng = [y for y in no_stop_words if wordnet.synsets(y)]
