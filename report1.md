@@ -106,7 +106,6 @@ The application of a weight on title words over body wordsdid not significantly 
 
 ## Generating Feature Vector 3
 
-### NOTE: stdlinux currently does not support scikit-learn; therefore, this dataset will currently not be generated on stdlinux.
 ### Approach
 
 Using the `scikit-learn` python module, the `TfidfVectorizer` submodule in the python submodule `feature_extraction.text` provides functionality for performing td-idf on a set of documents. This replaced the manually-coded td-idf formula in `tfidf.py` used for feature vectors 1 & 2. The same feature selection of methodology as feature vector 2 is employed. To view the dataset:
