@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/python-2.7.5/bin/python
 
 """ feature2.py
     -----------
